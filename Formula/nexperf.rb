@@ -21,13 +21,24 @@ class Nexperf < Formula
       -X github.com/prabath/nexperf/internal/version.Commit=#{commit[0, 12]}
     ]
 
-    system "go", "build", *std_go_args(ldflags: ldflags, output: bin/"nexperf"), "./cmd/nexperf"
+    system "go", "build", *std_go_args(ldflags: ldflags, output: libexec/"bin/nexperf"), "./cmd/nexperf"
 
-    (prefix/"web").install "web/dist"
+    (libexec/"web").install "web/dist"
+    bin.write_exec_script libexec/"bin/nexperf"
   end
 
   test do
     assert_match "nexperf #{version}", shell_output("#{bin}/nexperf version")
     assert_match "NexPerf system status", shell_output("#{bin}/nexperf status")
+
+    port = free_port
+    pid = spawn bin/"nexperf", "--port", port.to_s, "serve"
+    begin
+      sleep 2
+      assert_match '<div id="app"></div>', shell_output("curl -fsS http://127.0.0.1:#{port}/nexperf")
+    ensure
+      Process.kill("TERM", pid)
+      Process.wait(pid)
+    end
   end
 end
