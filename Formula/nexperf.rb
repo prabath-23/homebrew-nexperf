@@ -1,9 +1,9 @@
 class Nexperf < Formula
   desc "Local-first workstation observability and system intelligence tool"
   homepage "https://github.com/prabath-23/NexPerf"
-  url "https://github.com/prabath-23/NexPerf/archive/4364110c649022933b661c9ea7dfde30b0137cb8.tar.gz"
+  url "https://github.com/prabath-23/NexPerf/archive/41b7bfb2c9c97eaacf29be165be259d8c2adc032.tar.gz"
   version "0.3.0"
-  sha256 "e02423f1eeda7e29adf4d0f244b44d51725ddade2f71636f81b15d754143a9d2"
+  sha256 "426d891fc3852f7cd145e83120ca6250e66b486207019c51c906f3226fa1d711"
   license "MIT"
   head "https://github.com/prabath-23/NexPerf.git", branch: "feature/system-intelligence-&-platform-maturity"
 
@@ -14,7 +14,7 @@ class Nexperf < Formula
     system "npm", "--prefix", "web", "ci"
     system "npm", "--prefix", "web", "run", "build"
 
-    commit = build.head? ? Utils.git_head : "4364110c649022933b661c9ea7dfde30b0137cb8"
+    commit = build.head? ? Utils.git_head : "41b7bfb2c9c97eaacf29be165be259d8c2adc032"
     ldflags = %W[
       -s -w
       -X github.com/prabath/nexperf/internal/version.Version=#{version}
